@@ -46,9 +46,9 @@ export default {
       let formData = new FormData();
       formData.append("file", this.image);
       axios
-        .post("https://dvfcvkc529.execute-api.eu-west-1.amazonaws.com/dev/", formData, {
+        .post("https://dvfcvkc529.execute-api.eu-west-1.amazonaws.com/", formData, {
           headers: {
-            "Content-type": "multipart/form-data"
+            "Content-Type": "multipart/form-data"
           }
         })
         .then(response => {
