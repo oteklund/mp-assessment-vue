@@ -1,19 +1,19 @@
 <template>
   <div class="form-container">
+    <h2>Resize Image</h2>
     <form @submit.prevent="handleSubmit" enctype="multipart/form-data" id="image-form">
-      <h3>Upload image to resize</h3>
-      <label for="file">Choose an image</label>
-      <input @change="handleFileUpload" type="file" id="file" name="file" ref="image-input" />
-      <br />
-      <input type="submit" value="Submit" />
-      <br />
-      <p class="resize-message">{{message}}</p>
-      <div v-show="showImage">
-        <a v-bind:href="imageData" v-bind:download="'image.' + imageFormat">
-          <img v-bind:src="imageData" alt="thumbnail" />
-        </a>
+      <div>
+        <label for="file">Choose image</label>
+        <input @change="handleFileUpload" type="file" id="file" name="file" ref="image-input" />
+        <input type="submit" value="Submit" v-show="this.enableSubmit" />
       </div>
+      <p class="resize-message">{{message}}</p>
     </form>
+    <div v-show="showImage">
+      <a v-bind:href="imageData" v-bind:download="'image.' + imageFormat">
+        <img v-bind:src="imageData" alt="thumbnail" />
+      </a>
+    </div>
   </div>
 </template>
 
@@ -26,16 +26,18 @@ export default {
     return {
       image: null,
       showImage: false,
-      message: "",
+      message:
+        "Submitted image will be resized to a width of 500 pixels. Max image size: 4MB",
       imageData: "",
-      imageFormat: ""
+      imageFormat: "",
+      enableSubmit: false
     };
   },
   methods: {
     handleFileUpload() {
       const file = this.$refs["image-input"].files[0];
       file.type.match(/image/)
-        ? ((this.image = file), (this.message = ""))
+        ? ((this.image = file), (this.message = ""), (this.enableSubmit = true))
         : (this.message = "Uploaded file must be an image.");
     },
     handleSubmit() {
@@ -43,14 +45,19 @@ export default {
         this.message = "Add image to proceed.";
         return;
       }
+      this.message = "Processing...";
       let formData = new FormData();
       formData.append("file", this.image);
       axios
-        .post("https://dvfcvkc529.execute-api.eu-west-1.amazonaws.com/", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data"
+        .post(
+          "https://dvfcvkc529.execute-api.eu-west-1.amazonaws.com/dev/",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
           }
-        })
+        )
         .then(response => {
           const headers = response.headers["content-type"];
           const extension = headers.match(/(?<=\/)[^;]*/);
@@ -66,55 +73,65 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$dark: #002d38;
-$medium: #0098be;
-$bright: #00ccff;
-$light: #b5f0ff;
+$dark: #303030;
+$medium: #c5b3b3;
+$bright: #ffd3d3;
+$light: #d3d3d3;
 
 .form-container {
-  font-family: Arial, Helvetica, sans-serif;
-  background: $medium;
-  margin: 30px auto;
+  margin: 50px auto;
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
-  width: 80vw;
-  height: 40vh;
-  & > * {
-    margin: 20px;
-  }
+  align-items: flex-start;
+  justify-content: center;
+  max-width: 600px;
   form {
-    background: $light;
-    height: 90%;
+    width: 500px;
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    & > * {
-      margin: 10px;
-    }
-    input,
+    justify-content: flex-start;
+    margin: 20px 0;
     p {
-      margin: 5px;
+      padding: 20px 0;
+      max-width: 330px;
+      font-family: "Montserrat", sans-serif;
     }
     input,
     label {
-      font-size: 16px;
+      font-family: "Montserrat", sans-serif;
+      font-size: 14px;
       padding: 8px;
-      margin: 10px;
-      width: 200px;
+      margin-right: 20px;
+      width: 110px;
+      height: 33px;
       color: $dark;
-      background: $medium;
+      background: $light;
       outline: none;
       border-style: none;
+      white-space: nowrap;
     }
     #file {
       position: absolute;
+      top: -10000px;
+      margin: 0;
+      padding: 0;
       height: 0;
       width: 0;
       opacity: 0;
     }
-    img {
-      max-height: 200px;
-    }
+  }
+  img {
+    max-width: 100%;
+    max-height: 50vh;
+  }
+}
+@media (max-width: 625px) {
+  .form-container form {
+    flex-direction: column;
+    width: auto;
+    font-size: 14px;
+    align-items: flex-start;
   }
 }
 </style>

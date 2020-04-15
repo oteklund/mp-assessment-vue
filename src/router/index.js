@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import LayOut from '../views/LayOut.vue'
 import ImageResize from '../views/ImageResize.vue'
+import LaravelEssay from '../views/LaravelEssay.vue'
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ Vue.use(VueRouter)
     path: '/2',
     name: 'ImageResize',
     component: ImageResize
+  },
+  {
+    path: "/3",
+    name: "LaravelEssay",
+    component: LaravelEssay
   }
 ]
 

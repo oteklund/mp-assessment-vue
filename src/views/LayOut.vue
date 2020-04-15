@@ -42,8 +42,8 @@ $right-color: #3181c3;
 }
 body {
   background: $bg-color;
-  height: 80vh;
-  // overflow-y: scroll;
+  height: 100vh;
+  
 }
 .wrapper {
   & > * {
@@ -59,6 +59,8 @@ body {
   width: 70vw;
   text-align: center;
   h2 {
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
     width: 100%;
     font-weight: 200;
     font-size: 1.5rem;
@@ -114,6 +116,11 @@ body {
   }
   .col::after {
     display: none;
+  }
+}
+@media screen and (max-width: 350px) {
+  .col ul li {
+    font-size: 1.2rem;
   }
 }
 @media screen and (max-height: 450px) {

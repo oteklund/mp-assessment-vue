@@ -1,0 +1,3 @@
+endpoints:
+  ANY - https://dvfcvkc529.execute-api.eu-west-1.amazonaws.com/dev/
+  ANY - https://dvfcvkc529.execute-api.eu-west-1.amazonaws.com/dev/{proxy+}
