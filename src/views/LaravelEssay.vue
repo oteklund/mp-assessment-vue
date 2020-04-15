@@ -33,6 +33,7 @@
         </li>
       </ul>
       <hr>
+      <br>
       <h3>Cons</h3>
       <ul>
         <li>

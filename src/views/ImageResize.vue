@@ -4,7 +4,7 @@
     <form @submit.prevent="handleSubmit" enctype="multipart/form-data" id="image-form">
       <div>
         <label for="file">Choose image</label>
-        <input @change="handleFileUpload" type="file" id="file" name="file" ref="image-input" />
+        <input @change="handleFileUpload" type="file" id="file" name="file" ref="image-input" tabindex="-1" />
         <input type="submit" value="Submit" v-show="this.enableSubmit" />
       </div>
       <p class="resize-message">{{message}}</p>
@@ -37,7 +37,7 @@ export default {
     handleFileUpload() {
       const file = this.$refs["image-input"].files[0];
       file.type.match(/image/)
-        ? ((this.image = file), (this.message = ""), (this.enableSubmit = true))
+        ? ((this.image = file), (this.message = file.name), (this.enableSubmit = true))
         : (this.message = "Uploaded file must be an image.");
     },
     handleSubmit() {
